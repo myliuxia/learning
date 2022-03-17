@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>point</title>
+  </head>
+  <body>
+    <!-- 顶点着色器源码 -->
+    <script type="shader-source" id="vertexShader">
+     void main(){
+        //声明顶点位置
+        gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
+        //声明要绘制的点的大小。
+        gl_PointSize = 10.0;
+      }
+    </script>
+    
+    <!-- 片元着色器源码 -->
+    <script type="shader-source" id="fragmentShader">
+     void main(){
+       //设置像素颜色为红色
+      gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); 
+    }
+    </script>
+    <canvas id="webgl"  ></canvas>
+    <script src="../libs/webgl-utils.js"></script>
+    <script src="../libs/webgl-debug.js"></script>
+    <script src="../libs/cuon-utils.js"></script>
+    <script src="../libs/cuon-matrix.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
