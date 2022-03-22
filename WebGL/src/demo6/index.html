@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>纹理贴图</title>
+  </head>
+  <body style="padding: 0;margin: 0;font-size: 0;">
+    <!-- 顶点着色器源码 -->
+    <script type="shader-source" id="vertexShader">
+      //设置浮点数精度为中等精度
+      precision mediump float;
+      //接收顶点坐标
+      attribute vec2 a_Position;
+      //接收 canvas 的宽高尺寸
+      uniform vec2 a_Screen_Size;
+      // 接收 JavaScript 传递过来的顶点 uv 坐标
+      attribute vec2 a_Uv;
+      // 将接收的uv坐标传递给片元着色器
+      varying vec2 v_Uv;
+      void main(){
+        //start 将屏幕坐标系转化为裁剪坐标（裁剪坐标系）
+        vec2 position = (a_Position / a_Screen_Size) * 2.0 - 1.0; 
+        position = position * vec2(1.0, -1.0);
+        gl_Position = vec4(position, 0, 1);
+        // 将接收到的uv坐标传递给片元着色器
+        v_Uv = a_Uv;
+      }
+    </script>
+    
+    <!-- 片元着色器源码 -->
+    <script type="shader-source" id="fragmentShader">
+      //设置浮点数精度为中等精度
+      precision mediump float;
+      // 接收顶点着色器传递过来的 uv 值。
+	    varying vec2 v_Uv;
+      // 接收 JavaScript 传递过来的纹理
+	    uniform sampler2D u_Texture;
+      void main(){
+        // 提取纹理对应uv坐标上的颜色，赋值给当前片元（像素）。
+        gl_FragColor = texture2D(u_Texture, vec2(v_Uv.x, v_Uv.y));
+      }
+    </script>
+    <canvas id="webgl"></canvas>
+    <script src="../libs/webgl-helper.js"></script>
+    <!-- <script src="../libs/webgl-utils.js"></script>
+    <script src="../libs/webgl-debug.js"></script>
+    <script src="../libs/cuon-utils.js"></script>
+    <script src="../libs/cuon-matrix.js"></script> -->
+    <script src="./index.js"></script>
+  </body>
+</html>
