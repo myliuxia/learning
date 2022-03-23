@@ -341,6 +341,18 @@ function createSphere(radius, divideByYAxis, divideByCircle) {
   };
 }
 
+/**
+ * 
+ * @param {*} topRadius 上表面的半径
+ * @param {*} bottomRadius 下表面的半径
+ * @param {*} height 高度
+ * @param {*} bottomDivide 横截面的切分数量
+ * @param {*} verticalDivide 垂直方向的切分数量
+ * @param {*} topColor 
+ * @param {*} bottomColor 
+ * @param {*} verticalColor 
+ * @returns 
+ */
 function createCone(
   topRadius,
   bottomRadius,
