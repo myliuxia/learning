@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>纹理贴图</title>
+  </head>
+  <body style="padding: 0;margin: 0;font-size: 0;">
+    <!-- 顶点着色器源码 -->
+    <script type="shader-source" id="vertexShader">
+      //设置浮点数精度为中等精度
+      precision mediump float;
+      attribute vec3 a_Position;
+      attribute vec4 a_Color;
+      varying vec4 v_Color;
+      uniform mat4 u_Matrix;
+      void main(){
+        gl_Position =  u_Matrix * vec4(a_Position, 1);
+        v_Color = a_Color;
+      }
+    </script>
+    
+    <!-- 片元着色器源码 -->
+    <script type="shader-source" id="fragmentShader">
+      precision mediump float;
+	    varying vec4 v_Color;
+      void main(){
+        gl_FragColor = v_Color;
+      }
+    </script>
+    <canvas id="webgl"></canvas>
+    <script src="../libs/math.js"></script>
+    <script src="../libs/webgl-helper.js"></script>
+    <script src="../libs/vector3.js"></script>
+    <script src="../libs/webgl-matrix.js"></script>
+    <script src="./cube.js"></script>
+  </body>
+</html>
