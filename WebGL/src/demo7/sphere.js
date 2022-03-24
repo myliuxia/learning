@@ -17,7 +17,6 @@ let sphere = createSphere(2.0,24,48)
 sphere = transformIndicesToUnIndices(sphere) 
 createColorForVertex(sphere);
 var positions = sphere.positions;
-var indices = sphere.indices;
 var colors = sphere.colors;
 
 // 找到着色器全局变量
@@ -45,13 +44,6 @@ gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer)
 gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);
 // 设置a_Color 属性从缓冲区读取数据方式
 gl.vertexAttribPointer(a_Color, 4, gl.UNSIGNED_BYTE, true, 0, 0)
-
-// 创建索引缓冲区
-let indicesBuffer = gl.createBuffer()
-// 绑定索引缓冲区
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer)
-// 向索引缓冲区传递索引数据
-gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW)
 
 //设置清屏颜色为黑色。
 gl.clearColor(0, 0, 0, 1);

@@ -12,12 +12,14 @@ let program = createSimpleProgramFromScript(gl, 'vertexShader', 'fragmentShader'
 //使用该着色器程序
 gl.useProgram(program);
 
-
+/**创建正方体 */
 let cube = createCube(2, 2, 2);
 // 将带索引的立方体顶点数据转化成无索引的顶点数据
 cube = transformIndicesToUnIndices(cube);
 // 为顶点数据添加颜色信息
 createColorForVertex(cube);
+
+/** 创建球体 */
 let sphere = createSphere(1, 10, 10);
 // 将带索引的球体顶点数据转化成无索引的顶点数据
 sphere = transformIndicesToUnIndices(sphere);
@@ -29,11 +31,29 @@ let cubeBufferInfo = createBufferInfoFromObject(gl, cube);
 // 生成球体的顶点缓冲对象
 let sphereBufferInfo = createBufferInfoFromObject(gl, sphere);
 
-
+// 生成指定范围随机数方法
+var rand = window.lib3d.math.rand
 // 渲染列表
 let renderList = new List();
 // 模型列表
 let modelList = new List();
+
+//  计算正交投影矩阵
+// var aspect = canvas.width / canvas.height
+// var projectionMatrix = matrix.ortho(-aspect * 4, aspect * 4, -4, 4, 100, -100); 
+// var viewMatrix = matrix.identity();
+
+const Vector3 = window.lib3d.Vector3
+const aspect = canvas.clientWidth / canvas.clientHeight;
+const fieldOfViewRadians = 60;
+const projectionMatrix = matrix.perspective(fieldOfViewRadians, aspect, 1, 2000);
+const cameraPosition = new Vector3(0, 0, 30);
+const target = new Vector3(0, 0, 0);
+const up = new Vector3(0, 1, 0);
+const cameraMatrix = matrix.lookAt(cameraPosition, target, up);
+const viewMatrix = matrix.inverse(cameraMatrix);
+
+
 
 for (var i = 0; i < 100; ++i) {
     var object = new Model();
@@ -55,7 +75,7 @@ for (var i = 0; i < 100; ++i) {
         u_ColorFactor: new Float32Array([rand(0.5, 0.75), rand(0.5, 0.75), rand(0.25, 0.5)])
     })
 
-    objectList.add(object);
+    modelList.add(object);
     // 根据模型对象创建渲染对象，并将渲染对象添加到渲染列表中
     renderList.add({
         programInfo: program,
@@ -64,12 +84,14 @@ for (var i = 0; i < 100; ++i) {
         renderType: 'drawArrays'
     });
 }
-
+//设置清屏颜色为黑色。
+gl.clearColor(0, 0, 0, 1);
+gl.clear(gl.COLOR_BUFFER_BIT);
 
 // 全局变量
 var playing = false;
-var rand = lib3d.math.rand
 
+console.log(renderList)
 /** 渲染方法 */
 function render() {
   if (!playing) {
@@ -77,7 +99,7 @@ function render() {
       return;
   }
   // 重新设置模型的状态
-  objectList.forEach(function (object) {
+  modelList.forEach(function (object) {
       object.rotateX(object.rotation[0] + rand(0.2, 0.5));
       object.rotateY(object.rotation[1] + rand(0.2, 0.5));
       object.rotateZ(object.rotation[1] + rand(0.2, 0.5));
@@ -90,6 +112,7 @@ function render() {
   // 执行渲染
   let lastProgram;
   let lastBufferInfo;
+  
   renderList.forEach(function (object) {
       let programInfo = object.programInfo;
       let bufferInfo = object.model.bufferInfo;
@@ -117,7 +140,7 @@ function render() {
           return;
         }
       } else {
-        gl.drawArrays(gl[object.primitive], 0, bufferInfo.elementsCount);
+        gl.drawArrays(object.primitive, 0, bufferInfo.elementsCount);
       }
     });
     requestAnimationFrame(render);
@@ -127,4 +150,3 @@ function render() {
     playing = !playing;
     render();  
   })
-  render();
