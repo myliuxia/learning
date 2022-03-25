@@ -8,16 +8,16 @@ resizeCanvas(canvas);
 //获取绘图上下文
 let gl = getContext(canvas);
 //创建着色器程序
-let program = createSimpleProgramFromScript(gl, 'vertexShader', 'fragmentShader');
+let program = createProgramFromScript(gl, 'vertexShader', 'fragmentShader');
 //使用该着色器程序
-gl.useProgram(program);
+gl.useProgram(program.program);
 
 /**创建正方体 */
 let cube = createCube(2, 2, 2);
 // 将带索引的立方体顶点数据转化成无索引的顶点数据
 cube = transformIndicesToUnIndices(cube);
 // 为顶点数据添加颜色信息
-createColorForVertex(cube);
+// createColorForVertex(cube);
 
 /** 创建球体 */
 let sphere = createSphere(1, 10, 10);
@@ -86,6 +86,8 @@ for (var i = 0; i < 100; ++i) {
 }
 //设置清屏颜色为黑色。
 gl.clearColor(0, 0, 0, 1);
+//隐藏背面
+gl.enable(gl.CULL_FACE);
 gl.clear(gl.COLOR_BUFFER_BIT);
 
 // 全局变量
@@ -98,6 +100,8 @@ function render() {
       requestAnimationFrame(render);
       return;
   }
+  
+  gl.clear(gl.COLOR_BUFFER_BIT);
   // 重新设置模型的状态
   modelList.forEach(function (object) {
       object.rotateX(object.rotation[0] + rand(0.2, 0.5));
