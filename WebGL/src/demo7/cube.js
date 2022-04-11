@@ -86,7 +86,6 @@ var aspect = canvas.width / canvas.height
 // TODO 计算正交投影矩阵
 var projectionMatrix = matrix.ortho(-aspect * 4, aspect * 4, -4, 4, 100, -100); 
 var deg2radians = window.lib3d.math.deg2radians;
-var dstMatrix = matrix.identity();
 
 // 全局变量
 var playing = false;
