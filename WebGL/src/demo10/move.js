@@ -76,13 +76,14 @@ function rotate(){
 }
 /** 渲染 */
 function render(){
+  let renderMatrix = matrix.identity();
+  matrix.clone(currentMatrix, renderMatrix);
   //模型投影矩阵。
-  matrix.multiply(projectionMatrix, currentMatrix, currentMatrix);
-  gl.uniformMatrix4fv(u_Matrix, false, currentMatrix);
+  matrix.multiply(projectionMatrix, renderMatrix, renderMatrix);
+  gl.uniformMatrix4fv(u_Matrix, false, renderMatrix);
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES, 0, sphere.positions.length / 3);
 }
-
 
 // 判断是否支持触摸事件。
 var supportTouchEvent = 'ontouchstart' in window;
@@ -111,7 +112,7 @@ document.body.addEventListener(dragMoveEvent, function dragMove(e){
 // 绑定拖拽结束事件
 document.body.addEventListener(dragEndEvent, function dragEnd(e){
     draying = false
-    // matrix.clone(currentMatrix, lastMatrix);
+    matrix.clone(currentMatrix, lastMatrix);
 });
 
 render();
