@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.0.0",
-    "commander": "^9.2.0"
+    "commander": "^9.2.0",
+    "inquirer": "^8.2.2",
+    "ora": "^5.1.0"
   }
 }

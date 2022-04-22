@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 const program = require("commander");
 const chalk = require("chalk");
+const Inquirer = require("inquirer")
 
 console.log(`hello ${chalk.blue("world")}`);
 
@@ -14,3 +15,53 @@ program
 // npm run server --port 3000
 // 后面的 --port 3000 就是用户输入的参数
 program.parse(process.argv);
+
+/**
+ * ora —— 命令行 loading 效果
+ */
+const ora = require("ora");
+
+// 定义一个loading
+const spinner = ora("Loading unicorns");
+// 启动loading
+spinner.start();
+setTimeout(() => {
+  spinner.color = "yellow";
+  spinner.text = "Loading rainbows";
+}, 1000);
+
+// loading 成功
+spinner.succeed();
+// loading 失败
+spinner.fail();
+
+
+/**
+ * inquirer —— 命令行交互工具
+ */
+new Inquirer.prompt([
+  {
+    name: "vue",
+    // 多选交互功能
+    // 单选将这里修改为 list 即可
+    type: "checkbox",
+    message: "Check the features needed for your project:",
+    choices: [
+      {
+        name: "Babel",
+        checked: true,
+      },
+      {
+        name: "TypeScript",
+      },
+      {
+        name: "Progressive Web App (PWA) Support",
+      },
+      {
+        name: "Router",
+      },
+    ],
+  },
+]).then((data) => {
+  console.log(data);
+});
