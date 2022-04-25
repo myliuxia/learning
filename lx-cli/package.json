@@ -11,8 +11,10 @@
   "author": "liuxia",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
     "chalk": "^4.0.0",
     "commander": "^9.2.0",
+    "figlet": "^1.5.2",
     "fs-extra": "^10.1.0",
     "inquirer": "^8.2.2",
     "ora": "^5.1.0"
