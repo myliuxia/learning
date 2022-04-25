@@ -14,9 +14,6 @@ module.exports = async function (projectName, options) {
     if (options.force) {
       // 删除重名目录(remove是个异步方法)
       await fs.remove(targetDirectory);
-      // 创建项目
-      const creator = new Creator(projectName, targetDirectory);
-      creator.create();
     } else {
       let { isOverwrite } = await new Inquirer.prompt([
         // 返回值为promise
@@ -38,10 +35,10 @@ module.exports = async function (projectName, options) {
         // 选择 Overwirte ，先删除掉原有重名目录
         console.log("\r\nRemoving");
         await fs.remove(targetDirectory);
-        // 创建项目
-        const creator = new Creator(projectName, targetDirectory);
-        creator.create();
       }
     }
   }
+  // 创建项目
+  const creator = new Creator(projectName, targetDirectory);
+  creator.create();
 };
