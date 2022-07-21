@@ -42,3 +42,4 @@ module.exports = async function (projectName, options) {
   const creator = new Creator(projectName, targetDirectory);
   creator.create();
 };
+
